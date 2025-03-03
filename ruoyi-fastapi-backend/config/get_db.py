@@ -1,5 +1,9 @@
-from config.database import async_engine, AsyncSessionLocal, Base
-from utils.log_util import logger
+from config.database import (  # 从config.database模块中导入异步引擎、异步会话本地对象和Base类
+    AsyncSessionLocal,
+    Base,
+    async_engine,
+)
+from utils.log_util import logger  # 从utils.log_util模块中导入logger对象，用于记录日志
 
 
 async def get_db():
@@ -8,8 +12,8 @@ async def get_db():
 
     :return:
     """
-    async with AsyncSessionLocal() as current_db:
-        yield current_db
+    async with AsyncSessionLocal() as current_db:  # 使用异步上下文管理器创建一个新的数据库会话
+        yield current_db  # 返回当前会话，并在使用完毕后自动关闭连接
 
 
 async def init_create_table():
@@ -18,7 +22,7 @@ async def init_create_table():
 
     :return:
     """
-    logger.info('初始化数据库连接...')
-    async with async_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    logger.info('数据库连接成功')
+    logger.info('初始化数据库连接...')  # 记录日志，表示正在初始化数据库连接
+    async with async_engine.begin() as conn:  # 使用异步上下文管理器开始一个数据库连接
+        await conn.run_sync(Base.metadata.create_all)  # 执行同步操作，创建所有数据库表
+    logger.info('数据库连接成功')  # 记录日志，表示数据库连接成功
