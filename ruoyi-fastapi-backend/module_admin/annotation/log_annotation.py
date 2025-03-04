@@ -1,15 +1,17 @@
 import inspect
 import json
 import os
-import requests
 import time
 from datetime import datetime
+from functools import lru_cache, wraps
+from typing import Any, Callable, Literal, Optional
+
+import requests
 from fastapi import Request
 from fastapi.responses import JSONResponse, ORJSONResponse, UJSONResponse
-from functools import lru_cache, wraps
 from sqlalchemy.ext.asyncio import AsyncSession
-from typing import Any, Callable, Literal, Optional
 from user_agents import parse
+
 from config.enums import BusinessType
 from config.env import AppConfig
 from exceptions.exception import LoginException, ServiceException, ServiceWarning
@@ -47,6 +49,7 @@ class Log:
         @wraps(func)
         async def wrapper(*args, **kwargs):
             start_time = time.time()
+            ###  获取函数路径和上下文信息 ###
             # 获取被装饰函数的文件路径
             file_path = inspect.getfile(func)
             # 获取项目根路径
@@ -61,6 +64,7 @@ class Log:
             token = request.headers.get('Authorization')
             session_name_list = get_function_parameters_name_by_type(func, AsyncSession)
             query_db = get_function_parameters_value_by_name(func, session_name_list[0], *args, **kwargs)
+            ### 获取请求信息 ###
             request_method = request.method
             operator_type = 0
             user_agent = request.headers.get('User-Agent')
@@ -75,6 +79,7 @@ class Log:
             oper_location = '内网IP'
             if AppConfig.app_ip_location_query:
                 oper_location = get_ip_location(oper_ip)
+            ### 获取请求参数信息 ###
             # 根据不同的请求类型使用不同的方法获取请求参数
             content_type = request.headers.get('Content-Type')
             if content_type and (
@@ -116,6 +121,7 @@ class Log:
                     loginTime=oper_time.strftime('%Y-%m-%d %H:%M:%S'),
                 )
                 kwargs['form_data'].login_info = login_log
+            ### 调用原始函数并处理异常 ###
             try:
                 # 调用原始函数
                 result = await func(*args, **kwargs)
@@ -129,6 +135,7 @@ class Log:
                 logger.exception(e)
                 result = ResponseUtil.error(msg=str(e))
             # 获取请求耗时
+            ### 记录日志 ###
             cost_time = float(time.time() - start_time) * 100
             # 判断请求是否来自api文档
             request_from_swagger = (
