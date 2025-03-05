@@ -37,8 +37,8 @@ async def lifespan(app: FastAPI):  # 定义异步上下文管理器，用于管�
     worship()  # 执行通用操作
     await init_create_table()  # 初始化数据库表
     app.state.redis = await RedisUtil.create_redis_pool()  # 创建Redis连接池，并将其存储在应用状态中
-    await RedisUtil.init_sys_dict(app.state.redis)  # 初始化系统字典数据到Redis
-    await RedisUtil.init_sys_config(app.state.redis)  # 初始化系统配置数据到Redis
+    await RedisUtil.init_sys_dict(app.state.redis)  # 初始化系统字典数据到 Redis
+    await RedisUtil.init_sys_config(app.state.redis)  # 初始化系统配置数据到 Redis
     await SchedulerUtil.init_system_scheduler()  # 初始化系统调度器
     logger.info(f'{AppConfig.app_name}启动成功')  # 记录应用启动成功日志
     yield  # 暂停执行，等待应用运行
