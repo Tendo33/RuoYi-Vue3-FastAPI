@@ -52,6 +52,8 @@ app = FastAPI(  # 创建FastAPI应用实例
     description=f'{AppConfig.app_name}接口文档',  # 设置应用描述
     version=AppConfig.app_version,  # 设置应用版本
     lifespan=lifespan,  # 设置应用的生命周期管理函数
+    docs_url='/docs',
+    openapi_url='/openapi.json',
 )
 
 # 挂载子应用
