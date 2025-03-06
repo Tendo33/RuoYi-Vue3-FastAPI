@@ -26,7 +26,6 @@ from module_admin.controller.server_controller import serverController  # 导入
 from module_admin.controller.user_controller import userController  # 导入用户管理控制器
 from module_generator.controller.gen_controller import genController  # 导入代码生成控制器
 from sub_applications.handle import handle_sub_applications  # 导入子应用处理函数，用于挂载子应用
-from utils.common_util import worship  # 导入通用工具函数，用于执行一些通用操作
 from utils.log_util import logger  # 导入日志工具，用于记录日志
 
 
@@ -34,7 +33,7 @@ from utils.log_util import logger  # 导入日志工具，用于记录日志
 @asynccontextmanager
 async def lifespan(app: FastAPI):  # 定义异步上下文管理器，用于管理FastAPI的生命周期
     logger.info(f'{AppConfig.app_name}开始启动')  # 记录应用启动日志
-    worship()  # 执行通用操作
+    #worship()  # 执行通用操作
     await init_create_table()  # 初始化数据库表
     app.state.redis = await RedisUtil.create_redis_pool()  # 创建Redis连接池，并将其存储在应用状态中
     await RedisUtil.init_sys_dict(app.state.redis)  # 初始化系统字典数据到 Redis
@@ -52,8 +51,6 @@ app = FastAPI(  # 创建FastAPI应用实例
     description=f'{AppConfig.app_name}接口文档',  # 设置应用描述
     version=AppConfig.app_version,  # 设置应用版本
     lifespan=lifespan,  # 设置应用的生命周期管理函数
-    docs_url='/docs',
-    openapi_url='/openapi.json',
 )
 
 # 挂载子应用
