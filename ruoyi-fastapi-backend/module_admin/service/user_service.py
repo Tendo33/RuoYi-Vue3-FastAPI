@@ -438,7 +438,7 @@ class UserService:
                         edit_user = edit_user_model.model_dump(exclude_unset=True)
                         await UserDao.edit_user_dao(query_db, edit_user)
                     else:
-                        add_error_result.append(f"{count}.用户账号{row['user_name']}已存在")
+                        add_error_result.append(f'{count}.用户账号{row["user_name"]}已存在')
                 else:
                     add_user.validate_fields()
                     if not current_user.user.admin:

@@ -49,7 +49,7 @@ class ConfigService:
         config_all = await ConfigDao.get_config_list(query_db, ConfigPageQueryModel(**dict()), is_page=False)
         for config_obj in config_all:
             await redis.set(
-                f"{RedisInitKeyConfig.SYS_CONFIG.key}:{config_obj.get('configKey')}",
+                f'{RedisInitKeyConfig.SYS_CONFIG.key}:{config_obj.get("configKey")}',
                 config_obj.get('configValue'),
             )
 

@@ -218,7 +218,7 @@ class LoginService:
         else:
             # 此方法可实现同一账号同一时间只能登录一次
             redis_token = await request.app.state.redis.get(
-                f"{RedisInitKeyConfig.ACCESS_TOKEN.key}:{query_user.get('user_basic_info').user_id}"
+                f'{RedisInitKeyConfig.ACCESS_TOKEN.key}:{query_user.get("user_basic_info").user_id}'
             )
         if token == redis_token:
             if AppConfig.app_same_time_login:
@@ -229,7 +229,7 @@ class LoginService:
                 )
             else:
                 await request.app.state.redis.set(
-                    f"{RedisInitKeyConfig.ACCESS_TOKEN.key}:{query_user.get('user_basic_info').user_id}",
+                    f'{RedisInitKeyConfig.ACCESS_TOKEN.key}:{query_user.get("user_basic_info").user_id}',
                     redis_token,
                     ex=timedelta(minutes=JwtConfig.jwt_redis_expire_minutes),
                 )
