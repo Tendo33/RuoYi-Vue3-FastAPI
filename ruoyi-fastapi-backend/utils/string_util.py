@@ -166,5 +166,5 @@ class StringUtil:
         for k, v in mapping.items():
             if key.lower() == k.lower():
                 return v
-        
+
         return ''

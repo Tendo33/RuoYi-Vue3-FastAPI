@@ -70,6 +70,6 @@ class GetDataScope:
             else:
                 param_sql_list.append('1 == 0')
         param_sql_list = list(dict.fromkeys(param_sql_list))
-        param_sql = f"or_({', '.join(param_sql_list)})"
+        param_sql = f'or_({", ".join(param_sql_list)})'
 
         return param_sql

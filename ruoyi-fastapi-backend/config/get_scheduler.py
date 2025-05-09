@@ -37,7 +37,7 @@ class MyCronTrigger(CronTrigger):
         if '?' in values[3]:
             day = None
         elif 'L' in values[5]:
-            day = f"last {values[5].replace('L', '')}"
+            day = f'last {values[5].replace("L", "")}'
         elif 'W' in values[3]:
             day = cls.__find_recent_workday(int(values[3].split('W')[0]))
         else:
@@ -260,7 +260,7 @@ class SchedulerUtil:
                 # 获取任务触发器
                 job_trigger = str(query_job_info.get('trigger'))
                 # 构造日志消息
-                job_message = f"事件类型: {event_type}, 任务ID: {job_id}, 任务名称: {job_name}, 执行于{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                job_message = f'事件类型: {event_type}, 任务ID: {job_id}, 任务名称: {job_name}, 执行于{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
                 job_log = JobLogModel(
                     jobName=job_name,
                     jobGroup=job_group,

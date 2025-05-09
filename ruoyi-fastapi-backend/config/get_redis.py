@@ -24,7 +24,7 @@ class RedisUtil:
         """
         logger.info('开始连接redis...')
         # 使用aioredis.from_url方法创建Redis连接池
-        redis:Redis = await aioredis.from_url(
+        redis: Redis = await aioredis.from_url(
             url=f'redis://{RedisConfig.redis_host}',  # Redis服务器地址
             port=RedisConfig.redis_port,  # Redis服务器端口
             username=RedisConfig.redis_username,  # Redis用户名

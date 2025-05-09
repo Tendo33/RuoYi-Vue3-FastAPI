@@ -33,7 +33,7 @@ from utils.log_util import logger  # 导入日志工具，用于记录日志
 @asynccontextmanager
 async def lifespan(app: FastAPI):  # 定义异步上下文管理器，用于管理FastAPI的生命周期
     logger.info(f'{AppConfig.app_name}开始启动')  # 记录应用启动日志
-    #worship()  # 执行通用操作
+    # worship()  # 执行通用操作
     await init_create_table()  # 初始化数据库表
     app.state.redis = await RedisUtil.create_redis_pool()  # 创建Redis连接池，并将其存储在应用状态中
     await RedisUtil.init_sys_dict(app.state.redis)  # 初始化系统字典数据到 Redis
